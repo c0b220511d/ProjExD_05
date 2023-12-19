@@ -85,21 +85,44 @@ class Card:
     def update(self, screen: pg.Surface):
         screen.blit(self.img, self.rct)
         
-    
+
+class Round:
+    """
+    ラウンド数に関するクラス
+    """
+    def __init__(self, round: int):
+        """
+        ラウンド数を数えたい
+        引数 round: ゲームを何回行うか
+        """
+        self.round = round
+
+    def update(self, screen:pg.Surface):
+        """
+        ラウンド数を更新したい
+        """
+        font = pg.font.SysFont(None, 100)
+        text = font.render("round "+str(self.round), True, (0, 255, 255))
+        screen.blit(text, [1300, 0])
+
 
 def main():
     pg.display.set_caption('black jack')
     screen = pg.display.set_mode((WIDTH, HEIGHT))
+    screen.fill((70, 128, 79))
     # 背景
+    round = Round(1)
     card = Card("d",'A')
     clock = pg.time.Clock()
     tmr = 0
+
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 return
             
         card.update(screen)
+        round.update(screen)
         pg.display.update()
         tmr += 1
         clock.tick(50)
